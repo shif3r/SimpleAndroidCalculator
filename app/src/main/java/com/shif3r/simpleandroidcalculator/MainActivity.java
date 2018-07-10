@@ -79,14 +79,20 @@ public class MainActivity extends AppCompatActivity {
                     case "+":
                         resultNumber = number1 + number2;
                         strResult = Integer.toString(resultNumber);
-                        resultOut.setText(strResult);
-                        numbersClear();
+                        if(strResult.length()==10) Toast.makeText(getBaseContext(), "Превышена максимальная длинна числа", Toast.LENGTH_LONG).show();
+                        else {
+                            resultOut.setText(strResult);
+                            numbersClear();
+                        }
                         break;
                     case "-":
                         resultNumber = number1 - number2;
                         strResult = Integer.toString(resultNumber);
-                        resultOut.setText(strResult);
-                        numbersClear();
+                        if(strResult.length()==10) Toast.makeText(getBaseContext(), "Превышена максимальная длинна числа", Toast.LENGTH_LONG).show();
+                        else {
+                            resultOut.setText(strResult);
+                            numbersClear();
+                        }
                         break;
                     case "/":
                         if(number2==0){
@@ -96,15 +102,21 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             resultNumber = number1 / number2;
                             strResult = Integer.toString(resultNumber);
-                            resultOut.setText(strResult);
+                            if(strResult.length()==10) Toast.makeText(getBaseContext(), "Превышена максимальная длинна числа", Toast.LENGTH_LONG).show();
+                            else {
+                                resultOut.setText(strResult);
+                            }
                         }
                         numbersClear();
                         break;
                     case "*":
                         resultNumber = number1 * number2;
                         strResult = Integer.toString(resultNumber);
-                        resultOut.setText(strResult);
-                        numbersClear();
+                        if(strResult.length()==10) Toast.makeText(getBaseContext(), "Превышена максимальная длинна числа", Toast.LENGTH_LONG).show();
+                        else {
+                            resultOut.setText(strResult);
+                            numbersClear();
+                        }
                         break;
                     case "NUM":
                         if(secondNumberActive){
