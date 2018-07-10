@@ -6,14 +6,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import static java.sql.Types.NULL;
-
 public class MainActivity extends AppCompatActivity {
     TextView resultOut;
-    String strResult;
-    Button plusButton, minusButton, divideButton, multiplyButton, resultButton;
+    boolean flagchanges = false;
+    String strResult, strFirstNumber;
+    Button plusButton, minusButton, divideButton, multiplyButton, resultButton, deleteButton;
     Button button1,button2,button3,button4,button5,button6,button7,button8,button9,button0;
-    int firstNumber = NULL, secondNumber = NULL;
+    int firstNumber = 0;// secondNumber = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,19 +33,20 @@ public class MainActivity extends AppCompatActivity {
         divideButton=findViewById(R.id.buttonDivide);
         multiplyButton=findViewById(R.id.buttonMultiply);
         resultButton=findViewById(R.id.resultButton);
+        deleteButton=findViewById(R.id.deleteButton);
         View.OnClickListener numberClick = new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 String text = ((TextView) view).getText().toString();
-                String strFirstNumber;
                 strFirstNumber = String.valueOf(firstNumber);
+                if(!strFirstNumber.equals("0")){
+                    strFirstNumber = strFirstNumber + text;
+                }
                 if(strFirstNumber.equals("0")) {
                     strFirstNumber = text;
-                    firstNumber = Integer.parseInt(strFirstNumber);
-                } else{
-                    strFirstNumber = strFirstNumber + text;
-                    firstNumber = Integer.parseInt(strFirstNumber);
+                    //flagchanges = true;
                 }
+                firstNumber = Integer.parseInt(strFirstNumber);
                 resultOut.setText(strFirstNumber);
             }
         };
@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
                 String text = ((TextView)view).getText().toString();
                 switch (text){
                     case "+":
-
                         break;
                     case "-":
                         break;
@@ -79,5 +78,20 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+        plusButton.setOnClickListener(operatorClick);
+        minusButton.setOnClickListener(operatorClick);
+        divideButton.setOnClickListener(operatorClick);
+        multiplyButton.setOnClickListener(operatorClick);
+        View.OnClickListener delete = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                strFirstNumber = String.valueOf(firstNumber);
+                if(strFirstNumber.length()>1) strFirstNumber = strFirstNumber.substring(0, strFirstNumber.length()-1);
+                else strFirstNumber = "0";
+                firstNumber = Integer.parseInt(strFirstNumber);
+                resultOut.setText(strFirstNumber);
+            }
+        };
+        deleteButton.setOnClickListener(delete);
     }
 }
