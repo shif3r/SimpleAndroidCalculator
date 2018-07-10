@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 if(!secondNumberActive){
                     String text = ((TextView) view).getText().toString();
                     strNumber1 = String.valueOf(number1);
-                    if(strNumber1.length()==10) Toast.makeText(getBaseContext(), "Превышена максимальная длинна числа", Toast.LENGTH_LONG).show();
+                    if(strNumber1.length()==10) Toast.makeText(getBaseContext(), "Максимальный размер числа", Toast.LENGTH_LONG).show();
                     else {
                         if(!strNumber1.equals("0")) strNumber1 = strNumber1 + text;
                         if(strNumber1.equals("0")) strNumber1 = text;
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 else {
                     String text = ((TextView) view).getText().toString();
                     strNumber2 = String.valueOf(number2);
-                    if(strNumber2.length()==10)Toast.makeText(getBaseContext(), "Превышена максимальная длинна числа", Toast.LENGTH_LONG).show();
+                    if(strNumber2.length()==10)Toast.makeText(getBaseContext(), "Максимальный размер числа", Toast.LENGTH_LONG).show();
                     else {
                         if(!strNumber2.equals("0")) strNumber2 = strNumber2 + text;
                         if(strNumber2.equals("0")) strNumber2 = text;
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     case "+":
                         resultNumber = number1 + number2;
                         strResult = Integer.toString(resultNumber);
-                        if(strResult.length()==10) Toast.makeText(getBaseContext(), "Превышена максимальная длинна числа", Toast.LENGTH_LONG).show();
+                        if(strResult.length()==10) Toast.makeText(getBaseContext(), "Максимальный результат превышен", Toast.LENGTH_LONG).show();
                         else {
                             resultOut.setText(strResult);
                             numbersClear();
@@ -88,11 +88,8 @@ public class MainActivity extends AppCompatActivity {
                     case "-":
                         resultNumber = number1 - number2;
                         strResult = Integer.toString(resultNumber);
-                        if(strResult.length()==10) Toast.makeText(getBaseContext(), "Превышена максимальная длинна числа", Toast.LENGTH_LONG).show();
-                        else {
-                            resultOut.setText(strResult);
-                            numbersClear();
-                        }
+                        resultOut.setText(strResult);
+                        numbersClear();
                         break;
                     case "/":
                         if(number2==0){
@@ -102,17 +99,14 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             resultNumber = number1 / number2;
                             strResult = Integer.toString(resultNumber);
-                            if(strResult.length()==10) Toast.makeText(getBaseContext(), "Превышена максимальная длинна числа", Toast.LENGTH_LONG).show();
-                            else {
-                                resultOut.setText(strResult);
-                            }
+                            resultOut.setText(strResult);
                         }
                         numbersClear();
                         break;
                     case "*":
                         resultNumber = number1 * number2;
                         strResult = Integer.toString(resultNumber);
-                        if(strResult.length()==10) Toast.makeText(getBaseContext(), "Превышена максимальная длинна числа", Toast.LENGTH_LONG).show();
+                        if(strResult.length()==10) Toast.makeText(getBaseContext(), "Максимальный результат превышен", Toast.LENGTH_LONG).show();
                         else {
                             resultOut.setText(strResult);
                             numbersClear();
