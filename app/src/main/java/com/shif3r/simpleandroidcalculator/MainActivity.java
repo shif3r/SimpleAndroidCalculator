@@ -5,14 +5,24 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+    boolean secondNumberActive = false;
     TextView resultOut;
-    boolean flagchanges = false;
-    String strResult, strFirstNumber;
-    Button plusButton, minusButton, divideButton, multiplyButton, resultButton, deleteButton;
+    String strResult, strNumber1, strNumber2;
+    Button plusButton, minusButton, divideButton, multiplyButton, deleteButton, changeButton;
     Button button1,button2,button3,button4,button5,button6,button7,button8,button9,button0;
-    int firstNumber = 0;// secondNumber = 0;
+    int number1 = 0, number2 = 0, resultNumber = 0;
+    public void numbersClear(){
+        strNumber1 = "0";
+        strNumber2 = "0";
+        strResult = "0";
+        number1 = 0;
+        number2 = 0;
+        resultNumber = 0;
+        secondNumberActive = false;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,22 +42,100 @@ public class MainActivity extends AppCompatActivity {
         minusButton=findViewById(R.id.buttonMinus);
         divideButton=findViewById(R.id.buttonDivide);
         multiplyButton=findViewById(R.id.buttonMultiply);
-        resultButton=findViewById(R.id.resultButton);
         deleteButton=findViewById(R.id.deleteButton);
+        changeButton=findViewById(R.id.changeNumberButton);
         View.OnClickListener numberClick = new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                String text = ((TextView) view).getText().toString();
-                strFirstNumber = String.valueOf(firstNumber);
-                if(!strFirstNumber.equals("0")){
-                    strFirstNumber = strFirstNumber + text;
+                if(!secondNumberActive){
+                    String text = ((TextView) view).getText().toString();
+                    strNumber1 = String.valueOf(number1);
+                    if(strNumber1.length()==10) Toast.makeText(getBaseContext(), "Превышена максимальная длинна числа", Toast.LENGTH_LONG).show();
+                    else {
+                        if(!strNumber1.equals("0")) strNumber1 = strNumber1 + text;
+                        if(strNumber1.equals("0")) strNumber1 = text;
+                        number1 = Integer.parseInt(strNumber1);
+                        resultOut.setText(strNumber1);
+                    }
                 }
-                if(strFirstNumber.equals("0")) {
-                    strFirstNumber = text;
-                    //flagchanges = true;
+                else {
+                    String text = ((TextView) view).getText().toString();
+                    strNumber2 = String.valueOf(number2);
+                    if(strNumber2.length()==10)Toast.makeText(getBaseContext(), "Превышена максимальная длинна числа", Toast.LENGTH_LONG).show();
+                    else {
+                        if(!strNumber2.equals("0")) strNumber2 = strNumber2 + text;
+                        if(strNumber2.equals("0")) strNumber2 = text;
+                        number2 = Integer.parseInt(strNumber2);
+                        resultOut.setText(strNumber2);
+                    }
                 }
-                firstNumber = Integer.parseInt(strFirstNumber);
-                resultOut.setText(strFirstNumber);
+            }
+        };
+        View.OnClickListener operatorClick = new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                String text = ((TextView)view).getText().toString();
+                switch (text){
+                    case "+":
+                        resultNumber = number1 + number2;
+                        strResult = Integer.toString(resultNumber);
+                        resultOut.setText(strResult);
+                        numbersClear();
+                        break;
+                    case "-":
+                        resultNumber = number1 - number2;
+                        strResult = Integer.toString(resultNumber);
+                        resultOut.setText(strResult);
+                        numbersClear();
+                        break;
+                    case "/":
+                        if(number2==0){
+                            Toast.makeText(getBaseContext(), "Ошибка", Toast.LENGTH_SHORT).show();
+                            strResult = "Error";
+                            resultOut.setText(strResult);
+                        } else {
+                            resultNumber = number1 / number2;
+                            strResult = Integer.toString(resultNumber);
+                            resultOut.setText(strResult);
+                        }
+                        numbersClear();
+                        break;
+                    case "*":
+                        resultNumber = number1 * number2;
+                        strResult = Integer.toString(resultNumber);
+                        resultOut.setText(strResult);
+                        numbersClear();
+                        break;
+                    case "NUM":
+                        if(secondNumberActive){
+                            Toast.makeText(getBaseContext(), "Первое число", Toast.LENGTH_SHORT).show();
+                            secondNumberActive = false;
+                            resultOut.setText(strNumber1);
+                        }
+                        else {
+                            Toast.makeText(getBaseContext(), "Второе число", Toast.LENGTH_SHORT).show();
+                            secondNumberActive = true;
+                            resultOut.setText(strNumber2);
+                        }
+                        break;
+                    case "<-":
+                        if(!secondNumberActive){
+                            strNumber1 = String.valueOf(strNumber1);
+                            if(strNumber1.length()>1) strNumber1 = strNumber1.substring(0, strNumber1.length()-1);
+                            else strNumber1 = "0";
+                            number1 = Integer.parseInt(strNumber1);
+                            resultOut.setText(strNumber1);
+                        }
+                        else {
+                            strNumber2 = String.valueOf(strNumber2);
+                            if(strNumber2.length()>1) strNumber2 = strNumber2.substring(0, strNumber2.length()-1);
+                            else strNumber2 = "0";
+                            number2 = Integer.parseInt(strNumber2);
+                            resultOut.setText(strNumber2);
+                        }
+                        break;
+                    default:
+                }
             }
         };
         button1.setOnClickListener(numberClick);
@@ -60,38 +148,11 @@ public class MainActivity extends AppCompatActivity {
         button8.setOnClickListener(numberClick);
         button9.setOnClickListener(numberClick);
         button0.setOnClickListener(numberClick);
-        View.OnClickListener operatorClick = new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                String text = ((TextView)view).getText().toString();
-                switch (text){
-                    case "+":
-                        break;
-                    case "-":
-                        break;
-                    case "/":
-                        break;
-                    case "*":
-                        break;
-                    default:
-
-                }
-            }
-        };
         plusButton.setOnClickListener(operatorClick);
         minusButton.setOnClickListener(operatorClick);
         divideButton.setOnClickListener(operatorClick);
         multiplyButton.setOnClickListener(operatorClick);
-        View.OnClickListener delete = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                strFirstNumber = String.valueOf(firstNumber);
-                if(strFirstNumber.length()>1) strFirstNumber = strFirstNumber.substring(0, strFirstNumber.length()-1);
-                else strFirstNumber = "0";
-                firstNumber = Integer.parseInt(strFirstNumber);
-                resultOut.setText(strFirstNumber);
-            }
-        };
-        deleteButton.setOnClickListener(delete);
+        deleteButton.setOnClickListener(operatorClick);
+        changeButton.setOnClickListener(operatorClick);
     }
 }
