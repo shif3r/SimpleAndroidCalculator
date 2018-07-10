@@ -40,8 +40,13 @@ public class MainActivity extends AppCompatActivity {
                 String text = ((TextView) view).getText().toString();
                 String strFirstNumber;
                 strFirstNumber = String.valueOf(firstNumber);
-                strFirstNumber = strFirstNumber + text;
-                firstNumber = Integer.parseInt(strFirstNumber);
+                if(strFirstNumber.equals("0")) {
+                    strFirstNumber = text;
+                    firstNumber = Integer.parseInt(strFirstNumber);
+                } else{
+                    strFirstNumber = strFirstNumber + text;
+                    firstNumber = Integer.parseInt(strFirstNumber);
+                }
                 resultOut.setText(strFirstNumber);
             }
         };
