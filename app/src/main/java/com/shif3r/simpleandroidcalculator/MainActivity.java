@@ -11,9 +11,10 @@ public class MainActivity extends AppCompatActivity {
     boolean secondNumberActive = false;
     TextView resultOut;
     String strResult, strNumber1, strNumber2;
-    Button plusButton, minusButton, divideButton, multiplyButton, deleteButton, changeButton;
+    Button plusButton, minusButton, divideButton, multiplyButton, deleteButton, changeButton, invertButton;
     Button button1,button2,button3,button4,button5,button6,button7,button8,button9,button0;
-    int number1 = 0, number2 = 0, resultNumber = 0;
+    int number1 = 0, number2 = 0;
+    float resultNumber = 0;
     public void numbersClear(){
         strNumber1 = "0";
         strNumber2 = "0";
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         multiplyButton=findViewById(R.id.buttonMultiply);
         deleteButton=findViewById(R.id.deleteButton);
         changeButton=findViewById(R.id.changeNumberButton);
+        invertButton=findViewById(R.id.invertButton);
         View.OnClickListener numberClick = new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (text){
                     case "+":
                         resultNumber = number1 + number2;
-                        strResult = Integer.toString(resultNumber);
+                        strResult = Float.toString(resultNumber);
                         if(strResult.length()==10) Toast.makeText(getBaseContext(), "Максимальный результат превышен", Toast.LENGTH_LONG).show();
                         else {
                             resultOut.setText(strResult);
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case "-":
                         resultNumber = number1 - number2;
-                        strResult = Integer.toString(resultNumber);
+                        strResult = Float.toString(resultNumber);
                         resultOut.setText(strResult);
                         numbersClear();
                         break;
@@ -98,21 +100,21 @@ public class MainActivity extends AppCompatActivity {
                             resultOut.setText(strResult);
                         } else {
                             resultNumber = number1 / number2;
-                            strResult = Integer.toString(resultNumber);
+                            strResult = Float.toString(resultNumber);
                             resultOut.setText(strResult);
                         }
                         numbersClear();
                         break;
                     case "*":
                         resultNumber = number1 * number2;
-                        strResult = Integer.toString(resultNumber);
+                        strResult = Float.toString(resultNumber);
                         if(strResult.length()==10) Toast.makeText(getBaseContext(), "Максимальный результат превышен", Toast.LENGTH_LONG).show();
                         else {
                             resultOut.setText(strResult);
                             numbersClear();
                         }
                         break;
-                    case "NUM":
+                    case "1/2":
                         if(secondNumberActive){
                             Toast.makeText(getBaseContext(), "Первое число", Toast.LENGTH_SHORT).show();
                             secondNumberActive = false;
@@ -140,6 +142,18 @@ public class MainActivity extends AppCompatActivity {
                             resultOut.setText(strNumber2);
                         }
                         break;
+                    case "-(a)":
+                        if(!secondNumberActive){
+                            number1 = -number1;
+                            strNumber1 = Integer.toString(number1);
+                            resultOut.setText(strNumber1);
+                        }
+                        else{
+                            number2 = -number2;
+                            strNumber2 = Integer.toString(number2);
+                            resultOut.setText(strNumber2);
+                        }
+                        break;
                     default:
                 }
             }
@@ -160,5 +174,6 @@ public class MainActivity extends AppCompatActivity {
         multiplyButton.setOnClickListener(operatorClick);
         deleteButton.setOnClickListener(operatorClick);
         changeButton.setOnClickListener(operatorClick);
+        invertButton.setOnClickListener(operatorClick);
     }
 }
